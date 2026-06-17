@@ -871,7 +871,7 @@ function toggleIA(chip) {
 }
 
 function getSelectedIAs() {
-  return Array.from(document.querySelectorAll('.ia-chip.active')).map(el => el.dataset.ia);
+  return Array.from(document.querySelectorAll('.ia-chip.active[data-ia]')).map(el => el.dataset.ia);
 }
 
 function getSelectedPrompts() {
