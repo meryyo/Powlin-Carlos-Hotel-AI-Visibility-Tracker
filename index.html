@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -477,22 +477,22 @@
 
   <!-- FORM -->
   <div class="card">
-    <h2>Datos del hotel</h2>
+    <h2>Hotel details</h2>
     <div class="form-grid">
       <div class="form-group">
-        <label>Nombre del hotel</label>
+        <label>Hotel name</label>
         <input type="text" id="hotel-name" placeholder=""/>
       </div>
       <div class="form-group">
-        <label>Ciudad</label>
+        <label>City</label>
         <input type="text" id="hotel-city" placeholder=""/>
       </div>
       <div class="form-group">
-        <label>Aliases / nombres alternativos</label>
-        <input type="text" id="hotel-aliases" placeholder=""/>
+        <label>Alternative names <span style="font-weight:400;color:var(--muted)">(comma-separated, e.g. Hotel Sol, Sol Boutique)</span></label>
+        <input type="text" id="hotel-aliases" placeholder="Hotel Sol, Sol Boutique, The Sol Hotel"/>
       </div>
       <div class="form-group">
-        <label>Web del hotel</label>
+        <label>Hotel website</label>
         <input type="text" id="hotel-web" placeholder=""/>
       </div>
     </div>
@@ -500,13 +500,13 @@
 
   <!-- CONFIG -->
   <div class="card">
-    <h2>Configuración del test</h2>
+    <h2>Test configuration</h2>
 
     <div class="form-group" style="margin-bottom:20px">
-      <label>Prompts a testear <span style="font-weight:400;color:var(--muted)">(máx. 5)</span></label>
+      <label>Prompts to test <span style="font-weight:400;color:var(--muted)">(max. 5)</span></label>
       <div class="prompts-dropdown">
         <button class="prompts-toggle" onclick="togglePromptsList()" type="button">
-          <span id="prompts-toggle-label">Selecciona prompts</span>
+          <span id="prompts-toggle-label">Select prompts</span>
           <span class="chevron">&#8964;</span>
         </button>
         <div class="prompts-list" id="prompts-list" style="display:none">
@@ -516,35 +516,26 @@
       <div id="selected-prompts-preview" style="margin-top:10px;display:flex;flex-direction:column;gap:6px"></div>
     </div>
 
-    <div class="form-group" style="margin-bottom:20px">
-      <label>Idiomas</label>
-      <div class="selector-group lang-group">
-        <button class="selector-btn active" data-lang="ES" onclick="selectLang(this)">Español</button>
-        <button class="selector-btn active" data-lang="EN" onclick="selectLang(this)">English</button>
-      </div>
-    </div>
-
     <div class="form-group">
-      <label>IAs a testear</label>
+      <label>AI models to test</label>
       <div class="ia-grid">
         <div class="ia-chip active" onclick="toggleIA(this)" data-ia="chatgpt">ChatGPT</div>
         <div class="ia-chip active" onclick="toggleIA(this)" data-ia="perplexity">Perplexity</div>
         <div class="ia-chip active" onclick="toggleIA(this)" data-ia="gemini">Gemini</div>
         <div class="ia-chip active" onclick="toggleIA(this)" data-ia="claude">Claude</div>
-        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="copilot">Copilot</div>
       </div>
     </div>
   </div>
 
   <!-- RUN -->
   <button class="btn-run" id="btn-run" onclick="runTest()">
-    Analizar visibilidad del hotel
+    Analyze hotel AI visibility
   </button>
 
   <!-- PROGRESS -->
   <div class="card" id="progress-section">
     <div class="progress-header">
-      <h2>Analizando...</h2>
+      <h2>Analyzing...</h2>
       <span id="progress-count" style="font-size:13px;color:var(--muted);font-weight:600">0 / 0</span>
     </div>
     <div class="progress-bar-wrap">
@@ -554,11 +545,10 @@
       <table class="results-table">
         <thead>
           <tr>
-            <th>IA</th>
+            <th>AI</th>
             <th>Prompt</th>
-            <th>Idioma</th>
-            <th>Resultado</th>
-            <th>Extracto</th>
+            <th>Result</th>
+            <th>Excerpt</th>
           </tr>
         </thead>
         <tbody id="results-body"></tbody>
@@ -568,10 +558,10 @@
 
   <!-- SUMMARY -->
   <div class="card" id="summary-section">
-    <h2>Informe de visibilidad</h2>
+    <h2>Visibility report</h2>
     <div class="summary-grid" id="summary-grid"></div>
 
-    <div class="section-divider">Visibilidad por IA</div>
+    <div class="section-divider">Visibility by AI</div>
     <div class="ia-summary" id="ia-summary"></div>
 
     <div class="verdict-box" id="verdict-box">
@@ -580,21 +570,21 @@
     </div>
 
     <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap">
-      <button class="btn-secondary" onclick="resetForm()">Nuevo análisis</button>
-      <button class="btn-secondary" onclick="window.print()">Imprimir informe</button>
+      <button class="btn-secondary" onclick="resetForm()">New analysis</button>
+      <button class="btn-secondary" onclick="window.print()">Print report</button>
     </div>
   </div>
 
 
-  <!-- CONEXIONES -->
+  <!-- CONNECTIONS -->
   <div class="card" id="conexiones-card">
-    <h2>Conexiones</h2>
+    <h2>Connections</h2>
     <div class="form-group">
-      <label>API Key OpenRouter</label>
+      <label>OpenRouter API Key</label>
       <div style="display:flex;gap:8px;align-items:center">
         <input type="password" id="openrouter-key" placeholder="" style="flex:1"
           oninput="saveKey(this.value)"/>
-        <button class="btn-secondary" style="white-space:nowrap" onclick="toggleKeyVisibility()">Mostrar</button>
+        <button class="btn-secondary" style="white-space:nowrap" onclick="toggleKeyVisibility()">Show</button>
       </div>
       <span id="key-status" style="font-size:12px;color:var(--muted);margin-top:4px"></span>
     </div>
@@ -613,35 +603,33 @@ const IA_MODELS = {
   perplexity: { name: "Perplexity", model: "perplexity/sonar" },
   gemini:     { name: "Gemini",     model: "google/gemini-2.0-flash-001" },
   claude:     { name: "Claude",     model: "anthropic/claude-3.5-haiku" },
-  copilot:    { name: "Copilot",    model: "microsoft/phi-4" },
 };
 
 // 20 prompts base (variable: {{city}})
 const ALL_PROMPTS = [
-  { id: "P01", block: "Genérico",    es: "¿Qué hoteles me recomiendas en {{city}}?",                                                        en: "What hotels do you recommend in {{city}}?" },
-  { id: "P02", block: "Genérico",    es: "¿Cuáles son los mejores hoteles para alojarse en {{city}}?",                                      en: "What are the best hotels to stay in {{city}}?" },
-  { id: "P03", block: "Genérico",    es: "¿Dónde es mejor dormir en {{city}}?",                                                             en: "Where is the best place to sleep in {{city}}?" },
-  { id: "P04", block: "Genérico",    es: "¿Qué zonas son buenas para alojarse en {{city}} y qué hoteles hay allí?",                         en: "What areas are good to stay in {{city}} and what hotels are there?" },
-  { id: "P05", block: "Tipo viajero",es: "¿Qué hotel recomendarías en {{city}} para una escapada de fin de semana?",                        en: "What hotel would you recommend in {{city}} for a weekend getaway?" },
-  { id: "P06", block: "Tipo viajero",es: "¿Qué hotel es buena opción en {{city}} para una estancia tranquila?",                             en: "What hotel is a good option in {{city}} for a peaceful stay?" },
-  { id: "P07", block: "Tipo viajero",es: "¿Dónde alojarse en {{city}} si quiero estar cerca de los principales puntos de interés?",         en: "Where to stay in {{city}} if I want to be near the main points of interest?" },
-  { id: "P08", block: "Tipo viajero",es: "Busco un hotel en {{city}} bien ubicado para conocer la ciudad, ¿cuál recomiendas?",              en: "I'm looking for a well-located hotel in {{city}} to explore the city, which do you recommend?" },
-  { id: "P09", block: "Tipo viajero",es: "¿Qué hotel recomendarías en {{city}} para disfrutar del ambiente local?",                         en: "What hotel would you recommend in {{city}} to enjoy the local atmosphere?" },
-  { id: "P10", block: "Experiencia", es: "¿Qué hotel es buena opción en {{city}} si quiero moverme a pie?",                                 en: "What hotel is a good option in {{city}} if I want to get around on foot?" },
-  { id: "P11", block: "Experiencia", es: "¿Qué hotel elegirías en {{city}} para una estancia cómoda y sin complicaciones?",                 en: "What hotel would you choose in {{city}} for a comfortable and hassle-free stay?" },
-  { id: "P12", block: "Experiencia", es: "¿Qué hoteles de {{city}} suelen recomendar más los viajeros?",                                     en: "Which hotels in {{city}} do travelers recommend the most?" },
-  { id: "P13", block: "Experiencia", es: "�¿Qué hotel elegirías en {{city}} si buscas buena relación calidad-precio?",                        en: "What hotel would you choose in {{city}} if you're looking for good value for money?" },
-  { id: "P14", block: "Experiencia", es: "¿Qué hoteles de {{city}} son una buena alternativa a los más conocidos?",                         en: "What hotels in {{city}} are a good alternative to the most well-known ones?" },
-  { id: "P15", block: "Comparativa", es: "Si tuvieras que recomendar un hotel en {{city}}, ¿cuál sería y por qué?",                         en: "If you had to recommend a hotel in {{city}}, which would it be and why?" },
-  { id: "P16", block: "Comparativa", es: "¿Qué hotel en {{city}} recomendarías a alguien que quiere evitar los hoteles más turísticos?",    en: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?" },
-  { id: "P17", block: "Comparativa", es: "¿Qué hotel es buena opción en {{city}} si busco algo sencillo pero bien ubicado?",                en: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?" },
-  { id: "P18", block: "Comparativa", es: "¿Qué hotel de {{city}} tiene mejor reputación entre los viajeros?",                               en: "Which hotel in {{city}} has the best reputation among travelers?" },
-  { id: "P19", block: "Afinado",     es: "¿Cuál es el hotel más recomendado en {{city}} según las valoraciones de los usuarios?",           en: "What is the most recommended hotel in {{city}} according to user reviews?" },
-  { id: "P20", block: "Afinado",     es: "¿Qué hotel en {{city}} destacarías por su ubicación y comodidad?",                                en: "What hotel in {{city}} would you highlight for its location and comfort?" },
+  { id: "P01", block: "Generic",      text: "What hotels do you recommend in {{city}}?" },
+  { id: "P02", block: "Generic",      text: "What are the best hotels to stay in {{city}}?" },
+  { id: "P03", block: "Generic",      text: "Where is the best place to sleep in {{city}}?" },
+  { id: "P04", block: "Generic",      text: "What areas are good to stay in {{city}} and what hotels are there?" },
+  { id: "P05", block: "Traveler",     text: "What hotel would you recommend in {{city}} for a weekend getaway?" },
+  { id: "P06", block: "Traveler",     text: "What hotel is a good option in {{city}} for a peaceful stay?" },
+  { id: "P07", block: "Traveler",     text: "Where to stay in {{city}} if I want to be near the main points of interest?" },
+  { id: "P08", block: "Traveler",     text: "I'm looking for a well-located hotel in {{city}} to explore the city, which do you recommend?" },
+  { id: "P09", block: "Traveler",     text: "What hotel would you recommend in {{city}} to enjoy the local atmosphere?" },
+  { id: "P10", block: "Experience",   text: "What hotel is a good option in {{city}} if I want to get around on foot?" },
+  { id: "P11", block: "Experience",   text: "What hotel would you choose in {{city}} for a comfortable and hassle-free stay?" },
+  { id: "P12", block: "Experience",   text: "Which hotels in {{city}} do travelers recommend the most?" },
+  { id: "P13", block: "Experience",   text: "What hotel would you choose in {{city}} if you're looking for good value for money?" },
+  { id: "P14", block: "Experience",   text: "What hotels in {{city}} are a good alternative to the most well-known ones?" },
+  { id: "P15", block: "Comparison",   text: "If you had to recommend a hotel in {{city}}, which would it be and why?" },
+  { id: "P16", block: "Comparison",   text: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?" },
+  { id: "P17", block: "Comparison",   text: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?" },
+  { id: "P18", block: "Comparison",   text: "Which hotel in {{city}} has the best reputation among travelers?" },
+  { id: "P19", block: "Refined",      text: "What is the most recommended hotel in {{city}} according to user reviews?" },
+  { id: "P20", block: "Refined",      text: "What hotel in {{city}} would you highlight for its location and comfort?" },
 ];
 
 // ─── STATE ────────────────────────────────────────────────
-let selectedLangs    = new Set(["ES","EN"]);
 let selectedPromptIds = [];
 let results          = [];
 let totalCalls       = 0;
@@ -663,7 +651,7 @@ function buildPromptsList() {
     item.className = 'prompt-item';
     item.innerHTML = `
       <input type="checkbox" value="${p.id}" onchange="togglePrompt('${p.id}')"/>
-      <span class="prompt-item-text"><span class="prompt-item-id">${p.id}</span>${p.es}</span>
+      <span class="prompt-item-text"><span class="prompt-item-id">${p.id}</span>${p.text}</span>
     `;
     inner.appendChild(item);
   });
@@ -681,7 +669,7 @@ function togglePrompt(id) {
     if (selectedPromptIds.length >= 5) {
       // desmarcar el checkbox
       document.querySelector(`.prompt-item input[value="${id}"]`).checked = false;
-      alert('Máximo 5 prompts. Desmarca uno antes de añadir otro.');
+      alert('Max 5 prompts. Uncheck one before adding another.');
       return;
     }
     selectedPromptIds.push(id);
@@ -693,7 +681,7 @@ function togglePrompt(id) {
 function updatePromptToggleLabel() {
   const n = selectedPromptIds.length;
   document.getElementById('prompts-toggle-label').textContent =
-    n === 0 ? 'Selecciona prompts' : `${n} prompt${n > 1 ? 's' : ''} seleccionado${n > 1 ? 's' : ''}`;
+    n === 0 ? 'Select prompts' : `${n} prompt${n > 1 ? 's' : ''} selected`;
 }
 
 function updateSelectedPreview() {
@@ -704,7 +692,7 @@ function updateSelectedPreview() {
     if (!p) return;
     const div = document.createElement('div');
     div.className = 'prompt-preview';
-    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.es.length > 60 ? p.es.slice(0,60)+'…' : p.es}</span>
+    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.text.length > 60 ? p.text.slice(0,60)+'…' : p.text}</span>
       <button class="prompt-preview-remove" onclick="removePrompt('${id}')" type="button">x</button>`;
     preview.appendChild(div);
   });
@@ -730,7 +718,7 @@ document.addEventListener('click', e => {
 // ─── API KEY ──────────────────────────────────────────────
 function saveKey(val) {
   localStorage.setItem("openrouter_api_key", val);
-  document.getElementById("key-status").textContent = val ? "Guardada en este navegador" : "";
+  document.getElementById("key-status").textContent = val ? "Saved in this browser" : "";
 }
 
 function toggleKeyVisibility() {
@@ -738,10 +726,10 @@ function toggleKeyVisibility() {
   const btn = input.nextElementSibling;
   if (input.type === "password") {
     input.type = "text";
-    btn.textContent = "Ocultar";
+    btn.textContent = "Hide";
   } else {
     input.type = "password";
-    btn.textContent = "Mostrar";
+    btn.textContent = "Show";
   }
 }
 
@@ -749,7 +737,7 @@ function loadSavedKey() {
   const saved = localStorage.getItem("openrouter_api_key");
   if (saved) {
     document.getElementById("openrouter-key").value = saved;
-    document.getElementById("key-status").textContent = "Guardada en este navegador";
+    document.getElementById("key-status").textContent = "Saved in this browser";
   }
 }
 
@@ -759,22 +747,6 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 
-
-function getSelectedPrompts() {
-  return ALL_PROMPTS.filter(p => selectedPromptIds.includes(p.id));
-}
-
-function selectLang(btn) {
-  const lang = btn.dataset.lang;
-  if (selectedLangs.has(lang)) {
-    if (selectedLangs.size === 1) return; // al menos uno
-    selectedLangs.delete(lang);
-    btn.classList.remove('active');
-  } else {
-    selectedLangs.add(lang);
-    btn.classList.add('active');
-  }
-}
 
 function toggleIA(chip) {
   chip.classList.toggle('active');
@@ -797,10 +769,10 @@ async function runTest() {
   const ias        = getSelectedIAs();
 
   const apiKey = localStorage.getItem("openrouter_api_key") || "";
-  if (!apiKey) { alert('Introduce tu API Key de OpenRouter en la sección Conexiones.'); return; }
-  if (!hotelName || !city)         { alert('Por favor introduce el nombre del hotel y la ciudad.'); return; }
-  if (ias.length === 0)            { alert('Selecciona al menos una IA.'); return; }
-  if (selectedPromptIds.length === 0) { alert('Selecciona al menos un prompt.'); return; }
+  if (!apiKey) { alert('Enter your OpenRouter API Key in the Connections section.'); return; }
+  if (!hotelName || !city)         { alert('Please enter the hotel name and city.'); return; }
+  if (ias.length === 0)            { alert('Select at least one AI model.'); return; }
+  if (selectedPromptIds.length === 0) { alert('Select at least one prompt.'); return; }
 
   // Reset
   results = [];
@@ -811,10 +783,9 @@ async function runTest() {
   document.getElementById('btn-run').disabled = true;
 
   const prompts = getSelectedPrompts();
-  const langs   = Array.from(selectedLangs);
 
   // Calcular total de llamadas
-  totalCalls = prompts.length * langs.length * ias.length;
+  totalCalls = prompts.length * ias.length;
   updateProgress();
 
   // Crear filas placeholder
@@ -822,26 +793,21 @@ async function runTest() {
   const tasks = [];
 
   for (const prompt of prompts) {
-    for (const lang of langs) {
-      for (const ia of ias) {
-        const promptText = lang === 'ES'
-          ? prompt.es.replace(/{{city}}/g, city)
-          : prompt.en.replace(/{{city}}/g, city);
+    for (const ia of ias) {
+      const promptText = prompt.text.replace(/{{city}}/g, city);
 
-        const rowId = `row-${prompt.id}-${lang}-${ia}`;
-        const tr = document.createElement('tr');
-        tr.id = rowId;
-        tr.innerHTML = `
-          <td><strong>${IA_MODELS[ia].name}</strong></td>
-          <td style="font-size:12px;max-width:220px">${promptText}</td>
-          <td>${lang}</td>
-          <td><span class="badge badge-loading"><span class="spinner"></span> Analizando</span></td>
-          <td>—</td>
-        `;
-        tbody.appendChild(tr);
+      const rowId = `row-${prompt.id}-${ia}`;
+      const tr = document.createElement('tr');
+      tr.id = rowId;
+      tr.innerHTML = `
+        <td><strong>${IA_MODELS[ia].name}</strong></td>
+        <td style="font-size:12px;max-width:220px">${promptText}</td>
+        <td><span class="badge badge-loading"><span class="spinner"></span> Analyzing</span></td>
+        <td>—</td>
+      `;
+      tbody.appendChild(tr);
 
-        tasks.push({ prompt, lang, ia, promptText, rowId, hotelName, city, aliases, hotelWeb });
-      }
+      tasks.push({ prompt, ia, promptText, rowId, hotelName, city, aliases, hotelWeb });
     }
   }
 
@@ -863,9 +829,9 @@ async function runWithConcurrency(tasks, limit) {
   await Promise.all(workers);
 }
 
-async function processTask({ prompt, lang, ia, promptText, rowId, hotelName, city, aliases, hotelWeb }) {
+async function processTask({ prompt, ia, promptText, rowId, hotelName, city, aliases, hotelWeb }) {
   const recordId = `HT-${Date.now().toString().slice(-6)}-${ia.slice(0,2).toUpperCase()}`;
-  let result = { id: recordId, prompt, lang, ia, promptText, hotelName, city, aliases, hotelWeb, appears: false, excerpt: '', sources: '' };
+  let result = { id: recordId, prompt, ia, promptText, hotelName, city, aliases, hotelWeb, appears: false, excerpt: '', sources: '' };
 
   try {
     // 1. Llamada a la IA via OpenRouter
@@ -916,11 +882,11 @@ async function callOpenRouter(model, prompt) {
 
 async function detectMention(text, hotelName, aliases) {
   const allNames = [hotelName, ...aliases.split(',').map(a => a.trim()).filter(Boolean)].join(', ');
-  const detectionPrompt = `Analiza si el siguiente texto menciona el hotel "${hotelName}" o alguno de sus aliases: ${allNames}.
-Responde ÚNICAMENTE con "YES" si aparece mencionado (aunque sea parcialmente, con variaciones o alias), o "NO" si no aparece en absoluto.
-No expliques nada más.
+  const detectionPrompt = `Analyze whether the following text mentions the hotel "${hotelName}" or any of its aliases: ${allNames}.
+Reply ONLY with "YES" if it is mentioned (even partially, with variations or aliases), or "NO" if it does not appear at all.
+Do not explain anything else.
 
-TEXTO:
+TEXT:
 ${text.slice(0, 2000)}`;
 
   try {
@@ -960,26 +926,24 @@ function updateRow(rowId, result) {
   const excerpt = result.excerpt
     ? `<div class="excerpt">${result.excerpt.replace(/</g,'&lt;').slice(0,120)}…</div>`
     : '—';
-  tr.querySelector('td:nth-child(4)').innerHTML = badge;
-  tr.querySelector('td:nth-child(5)').innerHTML = excerpt;
+  tr.querySelector('td:nth-child(3)').innerHTML = badge;
+  tr.querySelector('td:nth-child(4)').innerHTML = excerpt;
 }
 
 async function sendToPabbly(result) {
   const payload = {
-    nombre_registro: result.id,
-    hotel:           result.hotelName,
-    web:             result.hotelWeb,
-    aliases:         result.aliases,
-    ciudad:          result.city,
-    ia:              IA_MODELS[result.ia].name,
-    prompt_id:       result.prompt.id,
-    idioma:          result.lang,
-    prompt_texto:    result.promptText.slice(0, 500),
-    resultado:       result.appears ? 'APARECE' : 'NO APARECE',
-    extracto:        result.excerpt.slice(0, 1900),
-    fuentes:         result.sources.slice(0, 500),
-    fecha_test:      new Date().toISOString().split('T')[0],
-    ejecutado_por:   'Carlos - Powlin Sales'
+    "Nombre registro":    result.id,
+    "Hotel":              result.hotelName,
+    "Aliases":            result.aliases,
+    "Ciudad":             result.city,
+    "IA":                 IA_MODELS[result.ia].name,
+    "Prompt ID":          result.prompt.id,
+    "Prompt texto":       result.promptText.slice(0, 500),
+    "Resultado":          result.appears ? 'APARECE' : 'NO APARECE',
+    "Extracto respuesta": result.excerpt.slice(0, 1900),
+    "Fuentes detectadas": result.sources.slice(0, 500),
+    "Fecha test":         new Date().toISOString().split('T')[0],
+    "Ejecutado por":      'Carlos - Powlin Sales'
   };
   try {
     await fetch(PABBLY_WEBHOOK, {
@@ -996,7 +960,7 @@ function updateProgress() {
   document.getElementById('progress-bar').style.width = pct + '%';
   document.getElementById('progress-count').textContent = `${completedCalls} / ${totalCalls}`;
   document.querySelector('#progress-section h2').textContent =
-    completedCalls === totalCalls ? 'Análisis completado' : 'Analizando...';
+    completedCalls === totalCalls ? 'Analysis complete' : 'Analyzing...';
 }
 
 // ─── SUMMARY ──────────────────────────────────────────────
@@ -1011,19 +975,19 @@ function showSummary(hotelName, city) {
   grid.innerHTML = `
     <div class="summary-card neutral">
       <div class="number">${total}</div>
-      <div class="label">Tests realizados</div>
+      <div class="label">Tests run</div>
     </div>
     <div class="summary-card green">
       <div class="number">${appears}</div>
-      <div class="label">Aparece en IA</div>
+      <div class="label">Appears in AI</div>
     </div>
     <div class="summary-card red">
       <div class="number">${noAppears}</div>
-      <div class="label">No aparece</div>
+      <div class="label">Does not appear</div>
     </div>
     <div class="summary-card ${score >= 50 ? 'green' : 'red'}">
       <div class="number">${score}%</div>
-      <div class="label">Visibilidad IA</div>
+      <div class="label">AI Visibility</div>
     </div>
   `;
 
@@ -1049,16 +1013,16 @@ function showSummary(hotelName, city) {
   const verdictBox = document.getElementById('verdict-box');
   if (score === 0) {
     verdictBox.className = 'verdict-box red-box';
-    verdictBox.querySelector('h3').textContent = `${hotelName} es invisible para la IA`;
-    verdictBox.querySelector('p').textContent  = `En ninguno de los ${total} tests realizados en ${selectedIAs.length} IAs diferentes, el hotel ${hotelName} aparece como recomendación. Cuando un viajero pregunta a ChatGPT, Perplexity, Gemini u otras IAs por hoteles en ${city}, su hotel sencillamente no existe. Powlin puede cambiar eso.`;
+    verdictBox.querySelector('h3').textContent = `${hotelName} is invisible to AI`;
+    verdictBox.querySelector('p').textContent  = `In none of the ${total} tests across ${selectedIAs.length} different AI models does ${hotelName} appear as a recommendation. When a traveler asks ChatGPT, Perplexity, Gemini or other AIs about hotels in ${city}, your hotel simply does not exist. Powlin can change that.`;
   } else if (score < 40) {
     verdictBox.className = 'verdict-box red-box';
-    verdictBox.querySelector('h3').textContent = `${hotelName} tiene visibilidad muy baja`;
-    verdictBox.querySelector('p').textContent  = `Solo aparece en el ${score}% de los tests. La gran mayoría de viajeros que consultan a una IA sobre hoteles en ${city} no encontrarán ${hotelName}. Hay una oportunidad clara de mejora.`;
+    verdictBox.querySelector('h3').textContent = `${hotelName} has very low AI visibility`;
+    verdictBox.querySelector('p').textContent  = `It only appears in ${score}% of tests. The vast majority of travelers asking an AI about hotels in ${city} will not find ${hotelName}. There is a clear opportunity for improvement.`;
   } else {
     verdictBox.className = 'verdict-box green-box';
-    verdictBox.querySelector('h3').textContent = `${hotelName} tiene presencia en IA`;
-    verdictBox.querySelector('p').textContent  = `Aparece en el ${score}% de los tests. Tiene una base de visibilidad, pero aún hay IAs y prompts donde no aparece. Powlin puede consolidar y ampliar esa presencia.`;
+    verdictBox.querySelector('h3').textContent = `${hotelName} has AI presence`;
+    verdictBox.querySelector('p').textContent  = `It appears in ${score}% of tests. There is a visibility base, but there are still AI models and prompts where it does not appear. Powlin can consolidate and expand that presence.`;
   }
 
   document.getElementById('summary-section').style.display = 'block';
