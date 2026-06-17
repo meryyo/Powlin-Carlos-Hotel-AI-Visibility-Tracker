@@ -586,6 +586,14 @@
         <div class="ia-chip active" onclick="toggleIA(this)" data-ia="claude">Claude</div>
       </div>
     </div>
+
+    <div class="form-group" style="margin-top:20px">
+      <label>Prompt language</label>
+      <div class="ia-grid">
+        <div class="ia-chip active" onclick="selectLang(this)" data-lang="EN">EN — English</div>
+        <div class="ia-chip" onclick="selectLang(this)" data-lang="ES">ES — Español</div>
+      </div>
+    </div>
   </div>
 
   <!-- RUN -->
@@ -682,29 +690,30 @@ const IA_MODELS = {
 
 // 20 prompts base (variable: {{city}})
 const ALL_PROMPTS = [
-  { id: "P01", block: "Generic",      text: "What hotels do you recommend in {{city}}?" },
-  { id: "P02", block: "Generic",      text: "What are the best hotels to stay in {{city}}?" },
-  { id: "P03", block: "Generic",      text: "Where is the best place to sleep in {{city}}?" },
-  { id: "P04", block: "Generic",      text: "What areas are good to stay in {{city}} and what hotels are there?" },
-  { id: "P05", block: "Traveler",     text: "What hotel would you recommend in {{city}} for a weekend getaway?" },
-  { id: "P06", block: "Traveler",     text: "What hotel is a good option in {{city}} for a peaceful stay?" },
-  { id: "P07", block: "Traveler",     text: "Where to stay in {{city}} if I want to be near the main points of interest?" },
-  { id: "P08", block: "Traveler",     text: "I'm looking for a well-located hotel in {{city}} to explore the city, which do you recommend?" },
-  { id: "P09", block: "Traveler",     text: "What hotel would you recommend in {{city}} to enjoy the local atmosphere?" },
-  { id: "P10", block: "Experience",   text: "What hotel is a good option in {{city}} if I want to get around on foot?" },
-  { id: "P11", block: "Experience",   text: "What hotel would you choose in {{city}} for a comfortable and hassle-free stay?" },
-  { id: "P12", block: "Experience",   text: "Which hotels in {{city}} do travelers recommend the most?" },
-  { id: "P13", block: "Experience",   text: "What hotel would you choose in {{city}} if you're looking for good value for money?" },
-  { id: "P14", block: "Experience",   text: "What hotels in {{city}} are a good alternative to the most well-known ones?" },
-  { id: "P15", block: "Comparison",   text: "If you had to recommend a hotel in {{city}}, which would it be and why?" },
-  { id: "P16", block: "Comparison",   text: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?" },
-  { id: "P17", block: "Comparison",   text: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?" },
-  { id: "P18", block: "Comparison",   text: "Which hotel in {{city}} has the best reputation among travelers?" },
-  { id: "P19", block: "Refined",      text: "What is the most recommended hotel in {{city}} according to user reviews?" },
-  { id: "P20", block: "Refined",      text: "What hotel in {{city}} would you highlight for its location and comfort?" },
+  { id: "P01", block: "Generic",    en: "What hotels do you recommend in {{city}}?",                                                        es: "¿Qué hoteles me recomiendas en {{city}}?" },
+  { id: "P02", block: "Generic",    en: "What are the best hotels to stay in {{city}}?",                                                    es: "¿Cuáles son los mejores hoteles para alojarse en {{city}}?" },
+  { id: "P03", block: "Generic",    en: "Where is the best place to sleep in {{city}}?",                                                    es: "¿Dónde es mejor dormir en {{city}}?" },
+  { id: "P04", block: "Generic",    en: "What areas are good to stay in {{city}} and what hotels are there?",                               es: "¿Qué zonas son buenas para alojarse en {{city}} y qué hoteles hay allí?" },
+  { id: "P05", block: "Traveler",   en: "What hotel would you recommend in {{city}} for a weekend getaway?",                                es: "¿Qué hotel recomendarías en {{city}} para una escapada de fin de semana?" },
+  { id: "P06", block: "Traveler",   en: "What hotel is a good option in {{city}} for a peaceful stay?",                                     es: "¿Qué hotel es buena opción en {{city}} para una estancia tranquila?" },
+  { id: "P07", block: "Traveler",   en: "Where to stay in {{city}} if I want to be near the main points of interest?",                     es: "¿Dónde alojarse en {{city}} si quiero estar cerca de los principales puntos de interés?" },
+  { id: "P08", block: "Traveler",   en: "I'm looking for a well-located hotel in {{city}} to explore the city, which do you recommend?",   es: "Busco un hotel en {{city}} bien ubicado para conocer la ciudad, ¿cuál recomiendas?" },
+  { id: "P09", block: "Traveler",   en: "What hotel would you recommend in {{city}} to enjoy the local atmosphere?",                       es: "¿Qué hotel recomendarías en {{city}} para disfrutar del ambiente local?" },
+  { id: "P10", block: "Experience", en: "What hotel is a good option in {{city}} if I want to get around on foot?",                        es: "¿Qué hotel es buena opción en {{city}} si quiero moverme a pie?" },
+  { id: "P11", block: "Experience", en: "What hotel would you choose in {{city}} for a comfortable and hassle-free stay?",                 es: "¿Qué hotel elegirías en {{city}} para una estancia cómoda y sin complicaciones?" },
+  { id: "P12", block: "Experience", en: "Which hotels in {{city}} do travelers recommend the most?",                                       es: "¿Qué hoteles de {{city}} suelen recomendar más los viajeros?" },
+  { id: "P13", block: "Experience", en: "What hotel would you choose in {{city}} if you're looking for good value for money?",             es: "¿Qué hotel elegirías en {{city}} si buscas buena relación calidad-precio?" },
+  { id: "P14", block: "Experience", en: "What hotels in {{city}} are a good alternative to the most well-known ones?",                    es: "¿Qué hoteles de {{city}} son una buena alternativa a los más conocidos?" },
+  { id: "P15", block: "Comparison", en: "If you had to recommend a hotel in {{city}}, which would it be and why?",                        es: "Si tuvieras que recomendar un hotel en {{city}}, ¿cuál sería y por qué?" },
+  { id: "P16", block: "Comparison", en: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?", es: "¿Qué hotel en {{city}} recomendarías a alguien que quiere evitar los hoteles más turísticos?" },
+  { id: "P17", block: "Comparison", en: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?",  es: "¿Qué hotel es buena opción en {{city}} si busco algo sencillo pero bien ubicado?" },
+  { id: "P18", block: "Comparison", en: "Which hotel in {{city}} has the best reputation among travelers?",                               es: "¿Qué hotel de {{city}} tiene mejor reputación entre los viajeros?" },
+  { id: "P19", block: "Refined",    en: "What is the most recommended hotel in {{city}} according to user reviews?",                      es: "¿Cuál es el hotel más recomendado en {{city}} según las valoraciones de los usuarios?" },
+  { id: "P20", block: "Refined",    en: "What hotel in {{city}} would you highlight for its location and comfort?",                       es: "¿Qué hotel en {{city}} destacarías por su ubicación y comodidad?" },
 ];
 
 // ─── STATE ────────────────────────────────────────────────
+let selectedLang     = 'EN';
 let selectedPromptIds = [];
 let results          = [];
 let totalCalls       = 0;
@@ -727,7 +736,7 @@ function buildPromptsList() {
     item.className = 'prompt-item';
     item.innerHTML = `
       <input type="checkbox" value="${p.id}" onchange="togglePrompt('${p.id}')"/>
-      <span class="prompt-item-text"><span class="prompt-item-id">${p.id}</span>${p.text}</span>
+      <span class="prompt-item-text"><span class="prompt-item-id">${p.id}</span>${p.en}</span>
     `;
     inner.appendChild(item);
   });
@@ -768,7 +777,7 @@ function updateSelectedPreview() {
     if (!p) return;
     const div = document.createElement('div');
     div.className = 'prompt-preview';
-    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.text.length > 60 ? p.text.slice(0,60)+'…' : p.text}</span>
+    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.en.length > 60 ? p.en.slice(0,60)+'…' : p.en}</span>
       <button class="prompt-preview-remove" onclick="removePrompt('${id}')" type="button">x</button>`;
     preview.appendChild(div);
   });
@@ -824,6 +833,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
+function selectLang(chip) {
+  selectedLang = chip.dataset.lang;
+  document.querySelectorAll('.ia-chip[data-lang]').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+}
+
 function toggleIA(chip) {
   chip.classList.toggle('active');
 }
@@ -871,7 +886,7 @@ async function runTest() {
 
   for (const prompt of prompts) {
     for (const ia of ias) {
-      const promptText = prompt.text.replace(/{{city}}/g, city);
+      const promptText = (selectedLang === 'ES' ? prompt.es : prompt.en).replace(/{{city}}/g, city);
 
       const rowId = `row-${prompt.id}-${ia}`;
       const tr = document.createElement('tr');
@@ -908,7 +923,7 @@ async function runWithConcurrency(tasks, limit) {
 
 async function processTask({ prompt, ia, promptText, rowId, hotelName, city, aliases, hotelWeb }) {
   const recordId = `HT-${Date.now().toString().slice(-6)}-${ia.slice(0,2).toUpperCase()}`;
-  let result = { id: recordId, prompt, ia, promptText, hotelName, city, aliases, hotelWeb, appears: false, excerpt: '', sources: '' };
+  let result = { id: recordId, prompt, ia, promptText, lang: selectedLang, hotelName, city, aliases, hotelWeb, appears: false, excerpt: '', sources: '' };
 
   try {
     // 1. Llamada a la IA via OpenRouter
@@ -1018,6 +1033,7 @@ async function sendToPabbly(result) {
     "Aliases":            result.aliases,
     "Ciudad":             result.city,
     "IA":                 IA_MODELS[result.ia].name,
+    "Idioma":             result.lang,
     "Prompt ID":          result.prompt.id,
     "Prompt texto":       result.promptText.slice(0, 500),
     "Resultado":          result.appears ? 'APARECE' : 'NO APARECE',
