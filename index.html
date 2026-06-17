@@ -160,7 +160,7 @@
       background: var(--green-light);
       color: var(--green);
     }
-    .ia-chip input { display: none; }
+    .ia-chip { cursor: pointer; }
 
     /* IDIOMA */
     .lang-group {
@@ -527,11 +527,11 @@
     <div class="form-group">
       <label>IAs a testear</label>
       <div class="ia-grid">
-        <label class="ia-chip active"><input type="checkbox" value="chatgpt" checked onchange="toggleIA(this)"> ChatGPT</label>
-        <label class="ia-chip active"><input type="checkbox" value="perplexity" checked onchange="toggleIA(this)"> Perplexity</label>
-        <label class="ia-chip active"><input type="checkbox" value="gemini" checked onchange="toggleIA(this)"> Gemini</label>
-        <label class="ia-chip active"><input type="checkbox" value="claude" checked onchange="toggleIA(this)"> Claude</label>
-        <label class="ia-chip active"><input type="checkbox" value="copilot" checked onchange="toggleIA(this)"> Copilot</label>
+        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="chatgpt">ChatGPT</div>
+        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="perplexity">Perplexity</div>
+        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="gemini">Gemini</div>
+        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="claude">Claude</div>
+        <div class="ia-chip active" onclick="toggleIA(this)" data-ia="copilot">Copilot</div>
       </div>
     </div>
   </div>
@@ -605,14 +605,14 @@
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
 const OPENROUTER_API_KEY = localStorage.getItem("openrouter_api_key") || "";
-const PABBLY_WEBHOOK     = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjYwNTY5MDYzMzA0Mzc1MjZiNTUzNSI_3D_pc/IjU3NjcwNTY5MDYzNzA0MyI1MjY1NTUzMTUxMzEi_pc";
+const PABBLY_WEBHOOK     = "https://connect.pabbly.com/webhook-listener/webhook/IjU3NjYwNTY5MDYzMzA0Mzc1MjZiNTUzNSI_3D_pc/IjU3NjcwNTY5MDYzNzA0MzI1MjY1NTUzMTUxMzEi_pc";
 
 // Mapa de modelos por IA
 const IA_MODELS = {
   chatgpt:    { name: "ChatGPT",    model: "openai/gpt-4o" },
-  perplexity: { name: "Perplexity", model: "perplexity/llama-3.1-sonar-large-128k-online" },
-  gemini:     { name: "Gemini",     model: "google/gemini-pro-1.5" },
-  claude:     { name: "Claude",     model: "anthropic/claude-3.5-sonnet" },
+  perplexity: { name: "Perplexity", model: "perplexity/sonar" },
+  gemini:     { name: "Gemini",     model: "google/gemini-2.0-flash-001" },
+  claude:     { name: "Claude",     model: "anthropic/claude-3.5-haiku" },
   copilot:    { name: "Copilot",    model: "microsoft/phi-4" },
 };
 
@@ -627,27 +627,27 @@ const ALL_PROMPTS = [
   { id: "P07", block: "Tipo viajero",es: "¿Dónde alojarse en {{city}} si quiero estar cerca de los principales puntos de interés?",         en: "Where to stay in {{city}} if I want to be near the main points of interest?" },
   { id: "P08", block: "Tipo viajero",es: "Busco un hotel en {{city}} bien ubicado para conocer la ciudad, ¿cuál recomiendas?",              en: "I'm looking for a well-located hotel in {{city}} to explore the city, which do you recommend?" },
   { id: "P09", block: "Tipo viajero",es: "¿Qué hotel recomendarías en {{city}} para disfrutar del ambiente local?",                         en: "What hotel would you recommend in {{city}} to enjoy the local atmosphere?" },
-  { id: "P10", block: "Experiencia", es: "¿Qué hotel es buena opción en {{city}} si quiero moverme a pie?",                                                          en: "What hotel is a good option in {{city}} if I want to get around on foot?" },
+  { id: "P10", block: "Experiencia", es: "¿Qué hotel es buena opción en {{city}} si quiero moverme a pie?",                                 en: "What hotel is a good option in {{city}} if I want to get around on foot?" },
   { id: "P11", block: "Experiencia", es: "¿Qué hotel elegirías en {{city}} para una estancia cómoda y sin complicaciones?",                 en: "What hotel would you choose in {{city}} for a comfortable and hassle-free stay?" },
-  { id: "P12", block: "Experiencia", es: "¿Qué hoteles de {{city}} suelen recomendar más los viajeros?",                                      en: "Which hotels in {{city}} do travelers recommend the most?" },
-  { id: "P13", block: "Experiencia", es: "¿Qué hotel elegirías en {{city}} si buscas buena relación calidad-precio?",                       en: "What hotel would you choose in {{city}} if you're looking for good value for money?" },
+  { id: "P12", block: "Experiencia", es: "¿Qué hoteles de {{city}} suelen recomendar más los viajeros?",                                     en: "Which hotels in {{city}} do travelers recommend the most?" },
+  { id: "P13", block: "Experiencia", es: "�¿Qué hotel elegirías en {{city}} si buscas buena relación calidad-precio?",                        en: "What hotel would you choose in {{city}} if you're looking for good value for money?" },
   { id: "P14", block: "Experiencia", es: "¿Qué hoteles de {{city}} son una buena alternativa a los más conocidos?",                         en: "What hotels in {{city}} are a good alternative to the most well-known ones?" },
   { id: "P15", block: "Comparativa", es: "Si tuvieras que recomendar un hotel en {{city}}, ¿cuál sería y por qué?",                         en: "If you had to recommend a hotel in {{city}}, which would it be and why?" },
-  { id: "P16", block: "Comparativa", es: "¿Qué hotel en {{city}} recomendarías a alguien que quiere evitar los hoteles más turísticos?",     en: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?" },
-  { id: "P17", block: "Comparativa", es: "¿Qué hotel es buena opción en {{city}} si busco algo sencillo pero bien ubicado?",               en: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?" },
+  { id: "P16", block: "Comparativa", es: "¿Qué hotel en {{city}} recomendarías a alguien que quiere evitar los hoteles más turísticos?",    en: "What hotel in {{city}} would you recommend to someone who wants to avoid the most touristy hotels?" },
+  { id: "P17", block: "Comparativa", es: "¿Qué hotel es buena opción en {{city}} si busco algo sencillo pero bien ubicado?",                en: "What hotel is a good option in {{city}} if I'm looking for something simple but well-located?" },
   { id: "P18", block: "Comparativa", es: "¿Qué hotel de {{city}} tiene mejor reputación entre los viajeros?",                               en: "Which hotel in {{city}} has the best reputation among travelers?" },
   { id: "P19", block: "Afinado",     es: "¿Cuál es el hotel más recomendado en {{city}} según las valoraciones de los usuarios?",           en: "What is the most recommended hotel in {{city}} according to user reviews?" },
-  { id: "P20", block: "Afinado",     es: "¿Qué hotel en {{city}} destacarías por su ubicación y comodidad?",                                 en: "What hotel in {{city}} would you highlight for its location and comfort?" },
+  { id: "P20", block: "Afinado",     es: "¿Qué hotel en {{city}} destacarías por su ubicación y comodidad?",                                en: "What hotel in {{city}} would you highlight for its location and comfort?" },
 ];
 
 // ─── STATE ────────────────────────────────────────────────
 let selectedLangs    = new Set(["ES","EN"]);
 let selectedPromptIds = [];
-let results           = [];
+let results          = [];
 let totalCalls       = 0;
 let completedCalls   = 0;
 
-// ─── PROMPTS DROPDOWN ────────────────────────────────────────
+// ─── PROMPTS DROPDOWN ─────────────────────────────────────
 function buildPromptsList() {
   const inner = document.getElementById('prompts-list-inner');
   let currentBlock = '';
@@ -704,7 +704,7 @@ function updateSelectedPreview() {
     if (!p) return;
     const div = document.createElement('div');
     div.className = 'prompt-preview';
-    div.innerHTML = `<span><strong>${p.id}</strong> —  ${p.es.length > 60 ? p.es.slice(0,60)+'…' : p.es}</span>
+    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.es.length > 60 ? p.es.slice(0,60)+'…' : p.es}</span>
       <button class="prompt-preview-remove" onclick="removePrompt('${id}')" type="button">x</button>`;
     preview.appendChild(div);
   });
@@ -776,12 +776,12 @@ function selectLang(btn) {
   }
 }
 
-function toggleIA(cb) {
-  cb.closest('.ia-chip').classList.toggle('active', cb.checked);
+function toggleIA(chip) {
+  chip.classList.toggle('active');
 }
 
 function getSelectedIAs() {
-  return Array.from(document.querySelectorAll('.ia-chip input:checked')).map(cb => cb.value);
+  return Array.from(document.querySelectorAll('.ia-chip.active')).map(el => el.dataset.ia);
 }
 
 function getSelectedPrompts() {
