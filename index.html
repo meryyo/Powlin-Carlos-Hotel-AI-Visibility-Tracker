@@ -777,7 +777,8 @@ function updateSelectedPreview() {
     if (!p) return;
     const div = document.createElement('div');
     div.className = 'prompt-preview';
-    div.innerHTML = `<span><strong>${p.id}</strong> — ${p.en.length > 60 ? p.en.slice(0,60)+'…' : p.en}</span>
+    const txt = selectedLang === 'ES' ? p.es : p.en;
+    div.innerHTML = `<span><strong>${p.id}</strong> — ${txt.length > 60 ? txt.slice(0,60)+'…' : txt}</span>
       <button class="prompt-preview-remove" onclick="removePrompt('${id}')" type="button">x</button>`;
     preview.appendChild(div);
   });
@@ -837,6 +838,32 @@ function selectLang(chip) {
   selectedLang = chip.dataset.lang;
   document.querySelectorAll('.ia-chip[data-lang]').forEach(c => c.classList.remove('active'));
   chip.classList.add('active');
+  rebuildPromptsList();
+}
+
+function rebuildPromptsList() {
+  const inner = document.getElementById('prompts-list-inner');
+  inner.innerHTML = '';
+  let currentBlock = '';
+  ALL_PROMPTS.forEach(p => {
+    if (p.block !== currentBlock) {
+      currentBlock = p.block;
+      const lbl = document.createElement('div');
+      lbl.className = 'prompt-block-label';
+      lbl.textContent = p.block;
+      inner.appendChild(lbl);
+    }
+    const item = document.createElement('label');
+    item.className = 'prompt-item';
+    const text = selectedLang === 'ES' ? p.es : p.en;
+    const checked = selectedPromptIds.includes(p.id) ? 'checked' : '';
+    item.innerHTML = `
+      <input type="checkbox" value="${p.id}" ${checked} onchange="togglePrompt('${p.id}')"/>
+      <span class="prompt-item-text"><span class="prompt-item-id">${p.id}</span>${text}</span>
+    `;
+    inner.appendChild(item);
+  });
+  updateSelectedPreview();
 }
 
 function toggleIA(chip) {
