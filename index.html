@@ -365,10 +365,71 @@
     .excerpt {
       font-size: 12px;
       color: var(--muted);
-      max-width: 300px;
+      max-width: 260px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    /* VIEW FULL RESPONSE BUTTON */
+    .btn-view {
+      display: inline-block;
+      margin-top: 4px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--green);
+      background: var(--green-light);
+      border: 1px solid var(--green);
+      border-radius: 6px;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
+    }
+    .btn-view:hover { background: #d8edb0; }
+
+    /* MODAL */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 32px;
+      max-width: 680px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    }
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 12px;
+    }
+    .modal-header h3 { font-size: 15px; font-weight: 700; color: var(--text); }
+    .modal-meta { font-size: 12px; color: var(--muted); margin-top: 2px; }
+    .modal-close {
+      background: none; border: none; font-size: 22px; cursor: pointer;
+      color: var(--muted); line-height: 1; padding: 0; flex-shrink: 0;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-body {
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text);
+      white-space: pre-wrap;
+      word-break: break-word;
     }
 
     .section-divider {
@@ -592,6 +653,20 @@
 
 </main>
 
+<!-- MODAL -->
+<div class="modal-overlay" id="response-modal" onclick="closeModal(event)">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <h3 id="modal-title">AI Response</h3>
+        <div class="modal-meta" id="modal-meta"></div>
+      </div>
+      <button class="modal-close" onclick="document.getElementById('response-modal').classList.remove('open')">×</button>
+    </div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
 <script>
 // ─── CONFIG ───────────────────────────────────────────────
 const OPENROUTER_API_KEY = localStorage.getItem("openrouter_api_key") || "";
@@ -634,6 +709,7 @@ let selectedPromptIds = [];
 let results          = [];
 let totalCalls       = 0;
 let completedCalls   = 0;
+let responseStore    = []; // stores full AI responses for modal
 
 // ─── PROMPTS DROPDOWN ─────────────────────────────────────
 function buildPromptsList() {
@@ -776,6 +852,7 @@ async function runTest() {
 
   // Reset
   results = [];
+  responseStore = [];
   completedCalls = 0;
   document.getElementById('results-body').innerHTML = '';
   document.getElementById('summary-section').style.display = 'none';
@@ -923,8 +1000,12 @@ function updateRow(rowId, result) {
   const badge = result.appears
     ? '<span class="badge badge-green">APARECE</span>'
     : '<span class="badge badge-red">NO APARECE</span>';
+  const safeExcerpt = result.excerpt.replace(/</g,'&lt;');
+  const storeIdx = responseStore.length;
+  responseStore.push({ ia: IA_MODELS[result.ia].name, prompt: result.promptText, response: result.excerpt });
   const excerpt = result.excerpt
-    ? `<div class="excerpt">${result.excerpt.replace(/</g,'&lt;').slice(0,120)}…</div>`
+    ? `<div class="excerpt">${safeExcerpt.slice(0,100)}…</div>
+       <button class="btn-view" onclick="openModal(${storeIdx})">View full response</button>`
     : '—';
   tr.querySelector('td:nth-child(3)').innerHTML = badge;
   tr.querySelector('td:nth-child(4)').innerHTML = excerpt;
@@ -1027,6 +1108,20 @@ function showSummary(hotelName, city) {
 
   document.getElementById('summary-section').style.display = 'block';
   document.getElementById('summary-section').scrollIntoView({ behavior: 'smooth' });
+}
+
+function openModal(idx) {
+  const item = responseStore[idx];
+  document.getElementById('modal-title').textContent = item.ia + ' — Full Response';
+  document.getElementById('modal-meta').textContent = 'Prompt: ' + item.prompt;
+  document.getElementById('modal-body').textContent = item.response;
+  document.getElementById('response-modal').classList.add('open');
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('response-modal')) {
+    document.getElementById('response-modal').classList.remove('open');
+  }
 }
 
 function resetForm() {
