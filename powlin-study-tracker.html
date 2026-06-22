@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Powlin — Case Studies · GEO for Hotels</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏨</text></svg>">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f4f0; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+    .container { max-width: 720px; margin: 0 auto; }
+    .header { display: flex; align-items: center; gap: 12px; margin-bottom: 2rem; }
+    .logo { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; }
+    .logo img { width: 40px; height: 40px; object-fit: contain; }
+    .header-text h1 { font-size: 18px; font-weight: 600; }
+    .header-text p { font-size: 13px; color: #666; }
+    .steps { display: flex; gap: 6px; margin-bottom: 1.5rem; }
+    .step { flex: 1; height: 3px; border-radius: 2px; background: #ddd; transition: background 0.3s; }
+    .step.active { background: #6ea001; }
+    .card { background: white; border: 1px solid #e8e8e4; border-radius: 12px; padding: 1.25rem; margin-bottom: 1rem; }
+    .card-title { font-size: 14px; font-weight: 600; margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
+    .card-title i { color: #6ea001; font-size: 16px; }
+    .field { margin-bottom: 12px; }
+    .field:last-child { margin-bottom: 0; }
+    label { font-size: 12px; font-weight: 500; color: #666; display: block; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 0.03em; }
+    input, select, textarea { width: 100%; padding: 8px 12px; border: 1px solid #e0e0db; border-radius: 8px; font-size: 14px; font-family: inherit; color: #1a1a1a; background: #fafaf8; outline: none; transition: border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color: #6ea001; background: white; }
+    textarea { resize: vertical; min-height: 70px; line-height: 1.5; }
+    .row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .row3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+    button { padding: 10px 20px; border: none; border-radius: 8px; font-size: 14px; font-family: inherit; font-weight: 500; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; transition: all 0.15s; }
+    .btn-primary { background: #6ea001; color: white; width: 100%; justify-content: center; padding: 12px; font-size: 15px; }
+    .btn-primary:hover { background: #5a8200; }
+    .btn-primary:disabled { background: #aaa; cursor: not-allowed; }
+    .btn-secondary { background: white; color: #444; border: 1px solid #e0e0db; width: 100%; justify-content: center; margin-top: 10px; }
+    .btn-secondary:hover { background: #f5f4f0; }
+    .error-box { background: #fff0f0; border: 1px solid #ffc5c5; color: #c0392b; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; }
+    .success-card { background: #f0faf6; border: 1px solid #a8dfc7; border-radius: 12px; padding: 2rem; text-align: center; margin-bottom: 1rem; }
+    .success-icon { font-size: 48px; margin-bottom: 1rem; }
+    .success-title { font-size: 18px; font-weight: 600; margin-bottom: 0.5rem; }
+    .success-sub { font-size: 14px; color: #555; margin-bottom: 1.5rem; line-height: 1.6; }
+    .success-detail { background: white; border-radius: 8px; padding: 12px 16px; font-size: 13px; color: #444; text-align: left; line-height: 2; }
+    .success-detail span { font-weight: 600; color: #1a1a1a; }
+    .mode-toggle { display: flex; gap: 8px; margin-bottom: 1rem; }
+    .mode-btn { flex: 1; padding: 10px; border: 2px solid #e0e0db; border-radius: 8px; background: white; color: #666; font-size: 13px; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.15s; }
+    .mode-btn.active { border-color: #6ea001; background: linear-gradient(135deg, #f4faeb, #e8f5d0); color: #6ea001; }
+    .mode-btn-tecnico.active { border-color: #5b5bd6; background: linear-gradient(135deg, #f0f0ff, #e0e0fa); color: #5b5bd6; }
+    .badge-mercado { display: inline-block; background: #f0f0ff; color: #5b5bd6; border: 1px solid #c5c5f0; border-radius: 6px; font-size: 11px; font-weight: 600; padding: 2px 8px; margin-left: 8px; vertical-align: middle; }
+    .info-box { background: #f0f0ff; border: 1px solid #c5c5f0; color: #3a3a8a; padding: 10px 14px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; line-height: 1.5; }
+    @media (max-width: 500px) { .row2 { grid-template-columns: 1fr; } .row3 { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo"><img src="https://raw.githubusercontent.com/meryyo/Powlin-Case-Studies/main/owl.png" alt="Powlin" /></div>
+    <div class="header-text">
+      <h1>Powlin — Case Studies</h1>
+      <p>GEO for Hotels</p>
+    </div>
+  </div>
+  <div class="steps" id="steps">
+    <div class="step active" id="s1"></div>
+    <div class="step" id="s2"></div>
+    <div class="step" id="s3"></div>
+  </div>
+
+  <div id="panel-config">
+
+    <!-- MODO -->
+    <div class="card">
+      <div class="card-title"><i class="ti ti-adjustments-horizontal"></i> Modo</div>
+      <div class="mode-toggle">
+        <div class="mode-btn active" id="mode-hotel" onclick="setMode('hotel')">
+          <i class="ti ti-building"></i> Hotel específico
+        </div>
+        <div class="mode-btn" id="mode-mercado" onclick="setMode('mercado')">
+          <i class="ti ti-map"></i> Mercado general
+        </div>
+        <div class="mode-btn mode-btn-tecnico" id="mode-tecnico" onclick="setMode('tecnico')">
+          <i class="ti ti-radar"></i> Señales técnicas
+        </div>
+      </div>
+    </div>
+
+    <!-- CONEXIONES (visible en modos IA) -->
+    <div class="card" id="card-conexiones">
+      <div class="card-title"><i class="ti ti-key"></i> Conexiones</div>
+      <div class="field">
+        <label>API key OpenRouter</label>
+        <input type="password" id="api-key" placeholder="sk-or-v1-..." autocomplete="off" oninput="saveKeys()" />
+        <p id="keys-saved-msg" style="font-size:11px;color:#6ea001;margin-top:6px;display:none;">&#128274; Guardada en este navegador</p>
+      </div>
+    </div>
+
+    <!-- CONFIGURACIÓN (solo modos hotel y mercado) -->
+    <div class="card" id="card-config">
+      <div class="card-title"><i class="ti ti-settings"></i> Configuración del estudio</div>
+      <div class="row2">
+        <div class="field">
+          <label>Modelo a testear</label>
+          <select id="model">
+            <option value="openai/gpt-4o">ChatGPT GPT-4o</option>
+            <option value="openai/gpt-4o-mini">ChatGPT GPT-4o mini</option>
+            <option value="google/gemini-2.5-flash">Gemini 2.5 Flash</option>
+            <option value="google/gemini-2.5-pro">Gemini 2.5 Pro</option>
+            <option value="perplexity/sonar">Perplexity Sonar</option>
+            <option value="perplexity/sonar-pro">Perplexity Sonar Pro</option>
+            <option value="x-ai/grok-4.3">Grok 4.3</option>
+            <option value="anthropic/claude-3-5-haiku">Claude 3.5 Haiku</option>
+            <option value="meta-llama/llama-3.3-70b-instruct">Llama 3.3 70B</option>
+            <option value="mistralai/mistral-small-2603">Mistral Small 4</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Ejecuciones por prompt</label>
+          <select id="runs">
+            <option value="1">1 ejecución</option>
+            <option value="3">3 ejecuciones</option>
+            <option value="5">5 ejecuciones</option>
+            <option value="10" selected>10 ejecuciones</option>
+            <option value="15">15 ejecuciones</option>
+            <option value="20">20 ejecuciones</option>
+            <option value="30">30 ejecuciones</option>
+          </select>
+        </div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Estudio</label>
+          <select id="estudio" onchange="onEstudioChange()">
+            <option value="Estudio A">Estudio A — Antes/Después</option>
+            <option value="Estudio B">Estudio B — Snapshot mercado</option>
+            <option value="Estudio C">Estudio C</option>
+            <option value="Estudio D">Estudio D — Mercado general</option>
+            <option value="Estudio E">Estudio E</option>
+            <option value="Estudio F">Estudio F</option>
+            <option value="Estudio G">Estudio G</option>
+            <option value="Estudio H">Estudio H</option>
+            <option value="Estudio I">Estudio I</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Semana / período</label>
+          <input type="text" id="semana" placeholder="Ej: Semana 1 — Jun 2026" />
+        </div>
+      </div>
+    </div>
+
+    <!-- HOTEL (solo modo hotel) -->
+    <div class="card" id="card-hotel">
+      <div class="card-title"><i class="ti ti-building"></i> Hotel</div>
+      <div class="row2">
+        <div class="field">
+          <label>Nombre del hotel (exacto)</label>
+          <input type="text" id="hotel-name" placeholder="Ej: Abama Hotel Tenerife" />
+        </div>
+        <div class="field">
+          <label>Web del hotel</label>
+          <input type="url" id="hotel-web" placeholder="https://www.hotelcasapalacio.com" />
+        </div>
+      </div>
+      <div class="field" style="background:linear-gradient(135deg, #f4faeb, #e8f5d0);border:1px solid #c5df8a;border-radius:8px;padding:10px;">
+        <label style="color:#6ea001;">Otros nombres del mismo hotel (uno por línea)</label>
+        <textarea id="hotel-aliases" style="min-height:50px;" placeholder="Abama Resort&#10;Abama Golf &amp; Spa Resort"></textarea>
+        <p style="font-size:11px;color:#888;margin-top:4px;">Nombres alternativos del MISMO establecimiento que la IA puede usar en sus respuestas.</p>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Tipo</label>
+          <select id="tipo">
+            <option value="Beta tester">Beta tester</option>
+            <option value="Competidor control">Competidor control</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Competidores (uno por línea)</label>
+          <textarea id="competitors" style="min-height:50px;" placeholder="Hotel Ejemplo 1&#10;Hotel Ejemplo 2"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROMPTS (solo modos hotel y mercado) -->
+    <div class="card" id="card-prompts">
+      <div class="card-title"><i class="ti ti-message"></i> Prompts</div>
+
+      <!-- EN -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <input type="checkbox" id="use-en" style="width:16px;height:16px;cursor:pointer;accent-color:#6ea001;" onchange="togglePromptBlock('en')" />
+        <label for="use-en" style="margin:0;text-transform:none;font-size:13px;font-weight:600;cursor:pointer;color:#1a1a1a;">
+          🇬🇧 Prompts en inglés (EN)
+        </label>
+      </div>
+      <div id="block-en" style="display:none;margin-bottom:16px;">
+        <textarea id="prompts-en" style="min-height:90px;" placeholder="best luxury hotel in Tenerife&#10;top boutique hotel Seville city center"></textarea>
+      </div>
+
+      <!-- ES -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+        <input type="checkbox" id="use-es" style="width:16px;height:16px;cursor:pointer;accent-color:#6ea001;" onchange="togglePromptBlock('es')" />
+        <label for="use-es" style="margin:0;text-transform:none;font-size:13px;font-weight:600;cursor:pointer;color:#1a1a1a;">
+          🇪🇸 Prompts en español (ES)
+        </label>
+      </div>
+      <div id="block-es" style="display:none;">
+        <textarea id="prompts-es" style="min-height:90px;" placeholder="mejor hotel de lujo en Tenerife&#10;hotel boutique con encanto en Sevilla centro"></textarea>
+      </div>
+    </div>
+
+    <!-- FORMULARIO SEÑALES TÉCNICAS -->
+    <div class="card" id="card-tecnico" style="display:none;">
+      <div class="card-title"><i class="ti ti-radar" style="color:#5b5bd6;"></i> Auditoría técnica de URLs</div>
+      <div class="info-box">
+        Por cada URL se comprobará: <strong>Schema.org Hotel</strong>, <strong>Schema.org FAQPage</strong>, <strong>llms.txt</strong>, <strong>robots.txt</strong> (bots IA bloqueados) y <strong>sitemap.xml</strong>. No se llama a ningún modelo de IA.
+      </div>
+      <div class="field">
+        <label>URLs de hoteles a auditar (una por línea)</label>
+        <textarea id="tecnico-urls" style="min-height:120px;" placeholder="https://www.hotelmolinlario.com&#10;https://www.granhotelmiramar.com&#10;https://www.hotelsurmalaga.com"></textarea>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Estudio</label>
+          <select id="tecnico-estudio">
+            <option value="Estudio A">Estudio A</option>
+            <option value="Estudio B">Estudio B</option>
+            <option value="Estudio C">Estudio C</option>
+            <option value="Estudio D">Estudio D</option>
+            <option value="Estudio E">Estudio E</option>
+            <option value="Estudio F">Estudio F</option>
+            <option value="Estudio G">Estudio G</option>
+            <option value="Estudio H">Estudio H</option>
+            <option value="Estudio I">Estudio I</option>
+            <option value="Señales técnicas">Señales técnicas (general)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Semana / período</label>
+          <input type="text" id="tecnico-semana" placeholder="Ej: Jun 2026" />
+        </div>
+      </div>
+    </div>
+
+    <div id="error-msg"></div>
+    <button class="btn-primary" id="start-btn" onclick="startStudy()">
+      <i class="ti ti-player-play"></i> Iniciar estudio
+    </button>
+  </div>
+
+  <div id="panel-sent" style="display:none;">
+    <div class="success-card">
+      <div class="success-icon">🚀</div>
+      <div class="success-title" id="sent-title">¡Estudio enviado!</div>
+      <div class="success-sub" id="sent-sub">Los resultados se han guardado en Notion.</div>
+      <div class="success-detail" id="sent-detail"></div>
+    </div>
+    <button class="btn-secondary" onclick="resetStudy()">
+      <i class="ti ti-plus"></i> Nuevo estudio
+    </button>
+  </div>
+</div>
+
+<script>
+  const PABBLY_WEBHOOK = 'https://connect.pabbly.com/webhook-listener/webhook/IjU3NjYwNTY5MDYzMzA0Mzc1MjZiNTUzNSI_3D_pc/IjU3NjcwNTY5MDYzNzA0MzE1MjY1NTUzNTUxMzIi_pc';
+
+  const MODEL_CODES = {
+    'openai/gpt-4o': 'GP',
+    'openai/gpt-4o-mini': 'GM',
+    'google/gemini-2.5-flash': 'GF',
+    'google/gemini-2.5-pro': 'GE',
+    'perplexity/sonar': 'PE',
+    'perplexity/sonar-pro': 'PP',
+    'x-ai/grok-4.3': 'GR',
+    'anthropic/claude-3-5-haiku': 'CL',
+    'meta-llama/llama-3.3-70b-instruct': 'LL',
+    'mistralai/mistral-small-2603': 'MI'
+  };
+
+  const MODEL_LABELS = {
+    'openai/gpt-4o': 'ChatGPT GPT-4o',
+    'openai/gpt-4o-mini': 'ChatGPT GPT-4o mini',
+    'google/gemini-2.5-flash': 'Gemini 2.5 Flash',
+    'google/gemini-2.5-pro': 'Gemini 2.5 Pro',
+    'anthropic/claude-3-5-haiku': 'Claude 3.5 Haiku',
+    'meta-llama/llama-3.3-70b-instruct': 'Llama 3.3 70B',
+    'mistralai/mistral-small-2603': 'Mistral Small 4',
+    'perplexity/sonar': 'Perplexity Sonar',
+    'perplexity/sonar-pro': 'Perplexity Sonar Pro',
+    'x-ai/grok-4.3': 'Grok 4.3'
+  };
+
+  const PERPLEXITY_MODELS = ['perplexity/sonar', 'perplexity/sonar-pro'];
+
+  // ─── Modo ───────────────────────────────────────────────────────────────────
+  let currentMode = 'hotel';
+
+  function setMode(mode) {
+    currentMode = mode;
+    document.getElementById('mode-hotel').classList.toggle('active', mode === 'hotel');
+    document.getElementById('mode-mercado').classList.toggle('active', mode === 'mercado');
+    document.getElementById('mode-tecnico').classList.toggle('active', mode === 'tecnico');
+
+    const isIA = mode === 'hotel' || mode === 'mercado';
+    const isTecnico = mode === 'tecnico';
+
+    document.getElementById('card-conexiones').style.display = 'block'; // siempre visible — Perplexity también necesita la API key
+    document.getElementById('card-config').style.display = isIA ? 'block' : 'none';
+    document.getElementById('card-hotel').style.display = mode === 'hotel' ? 'block' : 'none';
+    document.getElementById('card-prompts').style.display = isIA ? 'block' : 'none';
+    document.getElementById('card-tecnico').style.display = isTecnico ? 'block' : 'none';
+
+    const btn = document.getElementById('start-btn');
+    if (isTecnico) {
+      btn.innerHTML = '<i class="ti ti-radar"></i> Iniciar auditoría técnica';
+    } else {
+      btn.innerHTML = '<i class="ti ti-player-play"></i> Iniciar estudio';
+    }
+  }
+
+  function onEstudioChange() {
+    const estudio = document.getElementById('estudio').value;
+    const modelSelect = document.getElementById('model');
+    if (estudio === 'Estudio D') {
+      setMode('mercado');
+      Array.from(modelSelect.options).forEach(opt => {
+        opt.style.display = PERPLEXITY_MODELS.includes(opt.value) ? '' : 'none';
+      });
+      if (!PERPLEXITY_MODELS.includes(modelSelect.value)) {
+        modelSelect.value = 'perplexity/sonar';
+      }
+    } else {
+      Array.from(modelSelect.options).forEach(opt => { opt.style.display = ''; });
+    }
+  }
+
+  function togglePromptBlock(lang) {
+    const cb = document.getElementById('use-' + lang);
+    document.getElementById('block-' + lang).style.display = cb.checked ? 'block' : 'none';
+  }
+
+  function setStep(n) {
+    for (let i = 1; i <= 3; i++)
+      document.getElementById('s' + i).classList.toggle('active', i <= n);
+  }
+
+  // ─── Fuentes ────────────────────────────────────────────────────────────────
+  // Extrae URLs y sección de fuentes — aplica en AMBOS modos IA
+  function extractSources(text) {
+    const parts = [];
+
+    // 1. URLs directas
+    const urls = [...new Set((text.match(/https?:\/\/[^\s\)\]\"\'<>]+/g) || []))];
+    if (urls.length > 0) parts.push(urls.join('; '));
+
+    // 2. Sección de fuentes al final
+    const clean = text.replace(/\*+/g, '').replace(/\[\d+\]/g, '');
+    const lower = clean.toLowerCase();
+    const markers = [
+      'fuentes, webs y plataformas usadas:', 'fuentes usadas:', 'fuentes / plataformas usadas:',
+      'fuentes/plataformas usadas:', 'fuentes:', 'plataformas usadas:',
+      'sources used:', 'sources:', 'source:', 'platforms used:',
+      'information from:', 'references:', 'data from:'
+    ];
+    let bestIdx = -1;
+    for (const m of markers) {
+      const i = lower.lastIndexOf(m);
+      if (i !== -1 && i > bestIdx) bestIdx = i;
+    }
+    if (bestIdx !== -1) {
+      const section = clean.substring(bestIdx).trim();
+      // Extraer nombres de plataformas/sitios de la sección
+      const lines = section.split('\n').map(l => l.trim()).filter(l => l.length > 2 && l.length < 200);
+      if (lines.length > 1) {
+        // Tomar las líneas después del marcador (la primera es el propio marcador)
+        const sourceLines = lines.slice(1, 15);
+        // Limpiar bullets y números
+        const cleaned = sourceLines.map(l => l.replace(/^[-–•\d\.\)]+\s*/, '').trim()).filter(Boolean);
+        if (cleaned.length > 0) parts.push(cleaned.join('; '));
+      }
+    }
+
+    return parts.length > 0 ? parts.join('\n').substring(0, 1800) : 'no detectadas';
+  }
+
+  // ─── Competidores en modo Mercado general ───────────────────────────────────
+  // Extrae lista de hoteles mencionados para la columna Competidores
+  async function extractHotelsFromResponse(apiKey, responseText) {
+    try {
+      const checkPrompt = `List all hotel names specifically mentioned or recommended in the text below. Return ONLY the hotel names, separated by semicolons (;), in the order they appear. Do not include explanations, numbers, or any other text. If no hotels are mentioned, return "ninguno".\n\nText:\n${responseText.substring(0, 3000)}`;
+      const result = await callOpenRouter(apiKey, 'openai/gpt-4o-mini', checkPrompt);
+      const cleaned = result.trim().replace(/\n/g, '; ');
+      return cleaned.toLowerCase() === 'ninguno' ? '' : cleaned;
+    } catch(e) {
+      return '';
+    }
+  }
+
+  // ─── OpenRouter ─────────────────────────────────────────────────────────────
+  async function callOpenRouter(apiKey, model, prompt) {
+    const resp = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + apiKey,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://powlin.com',
+        'X-Title': 'Powlin Study Tracker'
+      },
+      body: JSON.stringify({
+        model,
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 1.0,
+        max_tokens: 1200
+      })
+    });
+    if (!resp.ok) {
+      const err = await resp.text();
+      throw new Error('OpenRouter ' + resp.status + ': ' + err.substring(0, 200));
+    }
+    const data = await resp.json();
+    return data.choices?.[0]?.message?.content || '';
+  }
+
+  // ─── Guardar en Notion via Pabbly webhook ───────────────────────────────────
+  async function saveToNotion(record) {
+    const resp = await fetch(PABBLY_WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(record)
+    });
+    if (!resp.ok) throw new Error('Pabbly ' + resp.status);
+  }
+
+  // ─── Señales técnicas ───────────────────────────────────────────────────────
+  const IA_BOTS = ['GPTBot', 'ClaudeBot', 'PerplexityBot', 'Google-Extended', 'CCBot', 'anthropic-ai', 'ChatGPT-User'];
+
+  // ─── Auditoría técnica via Perplexity Sonar ────────────────────────────────
+  // Perplexity tiene acceso web real y puede leer robots.txt, llms.txt y el HTML de la página.
+  async function auditUrl(rawUrl, apiKey) {
+    let url = rawUrl.trim();
+    if (!url.startsWith('http')) url = 'https://' + url;
+    const urlObj = new URL(url);
+    const domain = urlObj.origin;
+
+    const result = {
+      url,
+      schemaHotel: 'No verificado',
+      schemaFAQ: 'No verificado',
+      llmsTxt: 'No verificado',
+      robotsBloquea: 'No verificado',
+      botsBlockeados: '',
+      sitemapXml: 'No verificado'
+    };
+
+    const prompt = `You are a technical SEO and AI-readiness auditor. Check the following website and answer EXACTLY in the JSON format below. No explanations, no markdown, just the JSON object.
+
+Website to audit: ${url}
+
+Check these 5 things:
+1. Does the page at ${url} contain schema.org markup of type "Hotel" or "LodgingBusiness" (in JSON-LD or microdata)? → schema_hotel: "Sí" or "No"
+2. Does the page at ${url} contain schema.org markup of type "FAQPage"? → schema_faq: "Sí" or "No"
+3. Does the file at ${domain}/llms.txt exist and return a 200 response? → llms_txt: "Sí" or "No"
+4. Does the file at ${domain}/robots.txt block any of these AI bots with Disallow: /? Check each one: GPTBot, ClaudeBot, PerplexityBot, Google-Extended, CCBot, anthropic-ai, ChatGPT-User → robots_bloquea_ia: "Sí" or "No", and bots_bloqueados: list the blocked ones separated by ; (empty string if none)
+5. Does a sitemap exist for this site? Check ${domain}/sitemap.xml first; if it returns 404, check if ${domain}/robots.txt references a different sitemap location (Sitemap: directive) and check that URL instead. Does it exist and return a valid XML sitemap (200 response)? → sitemap_xml: "Sí" or "No"
+
+Return ONLY this JSON, nothing else:
+{"schema_hotel":"Sí or No","schema_faq":"Sí or No","llms_txt":"Sí or No","robots_bloquea_ia":"Sí or No","bots_bloqueados":"bot1; bot2 or empty string","sitemap_xml":"Sí or No"}`;
+
+    try {
+      const responseText = await callOpenRouter(apiKey, 'perplexity/sonar', prompt);
+      // Extraer el JSON de la respuesta (puede venir con texto alrededor)
+      const jsonMatch = responseText.match(/\{[\s\S]*?\}/);
+      if (jsonMatch) {
+        const parsed = JSON.parse(jsonMatch[0]);
+        if (parsed.schema_hotel) result.schemaHotel = parsed.schema_hotel;
+        if (parsed.schema_faq) result.schemaFAQ = parsed.schema_faq;
+        if (parsed.llms_txt) result.llmsTxt = parsed.llms_txt;
+        if (parsed.robots_bloquea_ia) result.robotsBloquea = parsed.robots_bloquea_ia;
+        if (parsed.bots_bloqueados !== undefined) result.botsBlockeados = parsed.bots_bloqueados;
+        if (parsed.sitemap_xml) result.sitemapXml = parsed.sitemap_xml;
+      }
+    } catch(e) {
+      console.error('Perplexity audit failed for', url, e);
+    }
+
+    return result;
+  }
+
+  // ─── Inicio de estudio ──────────────────────────────────────────────────────
+  async function startStudy() {
+    document.getElementById('error-msg').innerHTML = '';
+
+    // ── Modo Señales técnicas ──
+    if (currentMode === 'tecnico') {
+      const urlsRaw = document.getElementById('tecnico-urls').value.trim();
+      const estudio = document.getElementById('tecnico-estudio').value;
+      const semana = document.getElementById('tecnico-semana').value.trim() || 'Sin definir';
+
+      if (!urlsRaw) {
+        document.getElementById('error-msg').innerHTML = '<div class="error-box">Pega al menos una URL para auditar.</div>';
+        return;
+      }
+
+      const urls = urlsRaw.split('\n').map(u => u.trim()).filter(u => u.length > 4);
+      if (urls.length === 0) {
+        document.getElementById('error-msg').innerHTML = '<div class="error-box">No se encontraron URLs válidas.</div>';
+        return;
+      }
+
+      const tecnicoApiKey = document.getElementById('api-key').value.trim() || localStorage.getItem('powlin_or_key') || '';
+      if (!tecnicoApiKey) {
+        document.getElementById('error-msg').innerHTML = '<div class="error-box">Introduce tu API key de OpenRouter arriba (necesaria para Perplexity).</div>';
+        return;
+      }
+
+      const btn = document.getElementById('start-btn');
+      btn.disabled = true;
+      let done = 0, errors = 0;
+
+      for (const url of urls) {
+        btn.innerHTML = `<i class="ti ti-loader"></i> Auditando… ${done}/${urls.length}`;
+        try {
+          const auditResult = await auditUrl(url, tecnicoApiKey);
+          // Extraer nombre legible del dominio como "Hotel"
+          let hotelLabel = url;
+          try { hotelLabel = new URL(url).hostname.replace('www.', ''); } catch(e) {}
+
+          const fecha = new Date().toISOString(); // Timestamp completo
+
+          await saveToNotion({
+            nombre: `Señales · ${hotelLabel} · ${new Date().toISOString().split('T')[0]}`,
+            hotel_name: hotelLabel,
+            hotel_web: url,
+            estudio,
+            semana,
+            fecha,
+            modo: 'Señales técnicas',
+            schema_hotel: auditResult.schemaHotel,
+            schema_faq: auditResult.schemaFAQ,
+            llms_txt: auditResult.llmsTxt,
+            robots_bloquea_ia: auditResult.robotsBloquea,
+            bots_bloqueados: auditResult.botsBlockeados,
+            sitemap_xml: auditResult.sitemapXml,
+            // Campos vacíos para no romper el esquema (no aplican a este modo)
+            prompt: '',
+            model_label: '',
+            idioma: '',
+            aparece: '',
+            tipo: 'Señales técnicas',
+            extracto: '',
+            fuentes: '',
+            competidores: '',
+            otros_nombres: '',
+            notas: '',
+            posicion: '',
+            longitud_respuesta: 0
+          });
+          done++;
+        } catch(e) {
+          errors++;
+          done++;
+          console.error('Error auditando', url, e);
+        }
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="ti ti-radar"></i> Iniciar auditoría técnica';
+      document.getElementById('panel-config').style.display = 'none';
+      document.getElementById('panel-sent').style.display = 'block';
+      setStep(3);
+      document.getElementById('sent-title').textContent = '¡Auditoría completada!';
+      document.getElementById('sent-sub').textContent = 'Resultados guardados en Notion.';
+      document.getElementById('sent-detail').innerHTML = `
+        <div><span>Modo:</span> Señales técnicas</div>
+        <div><span>URLs auditadas:</span> ${done - errors} / ${urls.length}</div>
+        <div><span>Estudio:</span> ${estudio} · ${semana}</div>
+        ${errors > 0 ? `<div style="color:#c0392b"><span>Errores:</span> ${errors} (ver consola)</div>` : ''}
+      `;
+      return;
+    }
+
+    // ── Modos Hotel específico y Mercado general ──
+    const apiKey = document.getElementById('api-key').value.trim();
+    const model = document.getElementById('model').value;
+    const runs = parseInt(document.getElementById('runs').value);
+    const estudio = document.getElementById('estudio').value;
+    const semana = document.getElementById('semana').value.trim() || 'Sin definir';
+    const modelLabel = MODEL_LABELS[model] || model;
+
+    const isMercado = currentMode === 'mercado';
+    const hotelName = isMercado ? '' : document.getElementById('hotel-name').value.trim();
+    const hotelWeb = isMercado ? '' : document.getElementById('hotel-web').value.trim();
+    const hotelAliasesRaw = isMercado ? '' : document.getElementById('hotel-aliases').value.trim();
+    const hotelAliases = hotelAliasesRaw ? hotelAliasesRaw.split('\n').map(a => a.trim()).filter(a => a.length > 0) : [];
+    const tipo = isMercado ? 'Mercado general' : document.getElementById('tipo').value;
+    const competitors = isMercado ? '' : document.getElementById('competitors').value.trim();
+
+    if (!apiKey) {
+      document.getElementById('error-msg').innerHTML = '<div class="error-box">Rellena la API key de OpenRouter.</div>';
+      return;
+    }
+    if (!isMercado && !hotelName) {
+      document.getElementById('error-msg').innerHTML = '<div class="error-box">Rellena el nombre del hotel.</div>';
+      return;
+    }
+
+    const sourcesInstruction = '\n\nAt the end of your response, list the sources, websites or platforms you used to find this information (e.g. TripAdvisor, Booking.com, Google, hotel website URL).';
+    const modelCode = MODEL_CODES[model] || 'XX';
+    const batchId = modelCode + '-' + String(Date.now()).slice(-6);
+
+    const useEN = document.getElementById('use-en').checked;
+    const useES = document.getElementById('use-es').checked;
+
+    if (!useEN && !useES) {
+      document.getElementById('error-msg').innerHTML = '<div class="error-box">Activa al menos un bloque de prompts (EN o ES).</div>';
+      return;
+    }
+
+    const promptEntries = [];
+    if (useEN) {
+      document.getElementById('prompts-en').value.split('\n').map(s => s.trim()).filter(Boolean)
+        .forEach(p => promptEntries.push({ text: p + sourcesInstruction, original: p, idioma: 'EN' }));
+    }
+    if (useES) {
+      document.getElementById('prompts-es').value.split('\n').map(s => s.trim()).filter(Boolean)
+        .forEach(p => promptEntries.push({ text: p + sourcesInstruction, original: p, idioma: 'ES' }));
+    }
+
+    if (promptEntries.length === 0) {
+      document.getElementById('error-msg').innerHTML = '<div class="error-box">Escribe al menos un prompt en los bloques activados.</div>';
+      return;
+    }
+
+    const btn = document.getElementById('start-btn');
+    btn.disabled = true;
+
+    const total = promptEntries.length * runs;
+    let done = 0;
+
+    const tasks = [];
+    for (let pi = 0; pi < promptEntries.length; pi++) {
+      for (let ri = 1; ri <= runs; ri++) {
+        tasks.push({ prompt: promptEntries[pi].text, promptOriginal: promptEntries[pi].original, idioma: promptEntries[pi].idioma, promptIndex: pi + 1, run: ri });
+      }
+    }
+
+    const BATCH = 3;
+    let errors = 0;
+
+    for (let i = 0; i < tasks.length; i += BATCH) {
+      const batch = tasks.slice(i, i + BATCH);
+      await Promise.all(batch.map(async (t) => {
+        try {
+          btn.innerHTML = `<i class="ti ti-loader"></i> Ejecutando… ${done}/${total}`;
+          const responseText = await callOpenRouter(apiKey, model, t.prompt);
+
+          // AJUSTE 4: Longitud real de la respuesta (antes de truncar)
+          const longitudRespuesta = responseText.length;
+
+          // AJUSTE 2: Fuentes — aplica en ambos modos (misma función)
+          const fuentes = extractSources(responseText);
+          const extracto = responseText.substring(0, 1900);
+
+          // AJUSTE 3: Fecha automática con timestamp completo por ejecución
+          const fecha = new Date().toISOString();
+
+          let aparece = 'No';
+          let competidoresDetectados = competitors; // En modo hotel: los manuales
+
+          if (isMercado) {
+            aparece = 'Sí';
+            // AJUSTE 1: Extraer hoteles mencionados en modo Mercado general
+            competidoresDetectados = await extractHotelsFromResponse(apiKey, responseText);
+          } else {
+            // Modo hotel: verificar aparición
+            try {
+              const aliasLine = hotelAliases.length > 0
+                ? `The hotel may also appear under variations of these names (all refer to the same property): ${hotelAliases.map(a => `"${a}"`).join(', ')}. Consider partial matches — if the text contains a name that STARTS WITH or CONTAINS any of these aliases, treat it as the same hotel.\n`
+                : '';
+              const checkPrompt = `Is the hotel "${hotelName}" specifically mentioned or recommended in the text below?\n\n${aliasLine}Rules:\n- Answer YES if "${hotelName}" or any variation of its alternative names listed above appear in the text (partial matches count — e.g. "Las Terrazas de Abama" matches "Las Terrazas de Abama Suites").\n- Answer NO if the text only mentions a clearly different hotel with a different brand or owner (e.g. "Ritz-Carlton Abama" is a different hotel from "Abama Hotel Tenerife").\n- Answer only YES or NO, nothing else.\n\nText:\n${responseText.substring(0, 3000)}`;
+              const checkResp = await callOpenRouter(apiKey, 'openai/gpt-4o-mini', checkPrompt);
+              const answer = checkResp.trim().toUpperCase();
+              aparece = (answer.startsWith('SÍ') || answer.startsWith('SI') || answer.startsWith('YES')) ? 'Sí' : 'No';
+            } catch(e) {
+              aparece = 'No';
+            }
+          }
+
+          await saveToNotion({
+            nombre: `#${batchId} · R${t.run}`,
+            hotel_name: isMercado ? 'Mercado general' : hotelName,
+            hotel_web: hotelWeb,
+            prompt: t.promptOriginal,
+            model_label: modelLabel,
+            idioma: t.idioma,
+            aparece,
+            tipo,
+            estudio,
+            semana,
+            extracto,
+            fuentes,
+            fecha,                          // AJUSTE 3: ISO timestamp completo
+            competidores: competidoresDetectados, // AJUSTE 1: lista con ; en mercado
+            otros_nombres: hotelAliases.join('; '),
+            longitud_respuesta: longitudRespuesta, // AJUSTE 4: campo numérico
+            modo: isMercado ? 'Mercado general' : 'Hotel específico',
+            // Campos vacíos para no romper el esquema (no aplican a este modo)
+            schema_hotel: '',
+            schema_faq: '',
+            llms_txt: '',
+            robots_bloquea_ia: '',
+            bots_bloqueados: '',
+            sitemap_xml: '',
+            notas: '',
+            posicion: ''
+          });
+          done++;
+        } catch(e) {
+          errors++;
+          done++;
+          console.error('Error en tarea', t, e);
+        }
+      }));
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = '<i class="ti ti-player-play"></i> Iniciar estudio';
+
+    document.getElementById('panel-config').style.display = 'none';
+    document.getElementById('panel-sent').style.display = 'block';
+    setStep(3);
+    document.getElementById('sent-title').textContent = '¡Estudio enviado!';
+    document.getElementById('sent-sub').textContent = 'Los resultados se han guardado en Notion.';
+    document.getElementById('sent-detail').innerHTML = `
+      <div><span>Modo:</span> ${isMercado ? 'Mercado general' : 'Hotel específico'}</div>
+      ${!isMercado ? `<div><span>Hotel:</span> ${hotelName}</div>` : ''}
+      <div><span>Modelo:</span> ${modelLabel}</div>
+      <div><span>Prompts:</span> ${promptEntries.length} (${useEN && useES ? 'EN + ES' : useEN ? 'EN' : 'ES'})</div>
+      <div><span>Ejecuciones:</span> ${runs} por prompt (${total} total)</div>
+      <div><span>Guardadas en Notion:</span> ${done - errors} / ${total}</div>
+      <div><span>Estudio:</span> ${estudio} · ${semana}</div>
+      ${errors > 0 ? `<div style="color:#c0392b"><span>Errores:</span> ${errors} (ver consola)</div>` : ''}
+    `;
+  }
+
+  function resetStudy() {
+    document.getElementById('panel-sent').style.display = 'none';
+    document.getElementById('panel-config').style.display = 'block';
+    const btn = document.getElementById('start-btn');
+    btn.disabled = false;
+    if (currentMode === 'tecnico') {
+      btn.innerHTML = '<i class="ti ti-radar"></i> Iniciar auditoría técnica';
+    } else {
+      btn.innerHTML = '<i class="ti ti-player-play"></i> Iniciar estudio';
+    }
+    document.getElementById('error-msg').innerHTML = '';
+    setStep(1);
+    const modelSelect = document.getElementById('model');
+    Array.from(modelSelect.options).forEach(opt => { opt.style.display = ''; });
+  }
+
+  function saveKeys() {
+    const or = document.getElementById('api-key').value.trim();
+    if (or) localStorage.setItem('powlin_or_key', or);
+    const msg = document.getElementById('keys-saved-msg');
+    if (msg) msg.style.display = or ? 'block' : 'none';
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const savedOR = localStorage.getItem('powlin_or_key');
+    if (savedOR) {
+      document.getElementById('api-key').value = savedOR;
+      document.getElementById('keys-saved-msg').style.display = 'block';
+    }
+  });
+</script>
+</body>
+</html>
